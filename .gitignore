@@ -1,5 +1,9 @@
-# Visual Studio 2015 user specific files
+# Visual Studio user specific files
 .vs/
+# Visual Code  user specific files
+.vscode/
+
+Intermediate/*
 
 # Compiled Object files
 *.slo
@@ -23,7 +27,7 @@
 *.lai
 *.la
 *.a
-*.lib
+# *.lib
 
 # Executables
 *.exe
@@ -35,6 +39,7 @@
 *.xcodeproj
 *.xcworkspace
 *.sln
+*.code-workspace
 *.suo
 *.opensdf
 *.sdf
@@ -47,7 +52,7 @@ SourceArt/**/*.tga
 
 # Binary Files
 Binaries/*
-Plugins/**/Binaries/*
+Plugins/*/Binaries/*
 
 # Builds
 Build/*
@@ -68,7 +73,11 @@ Saved/*
 
 # Compiled source files for the engine to use
 Intermediate/*
-Plugins/**/Intermediate/*
+Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+Intermediate/*
+
+#RIDER
+.idea/*

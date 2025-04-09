@@ -96,7 +96,6 @@
 #include "AssetNotifications.h"
 #endif
 
-#include "CineCameraComponent.h"
 #include "Animation/AnimSequence.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -633,8 +632,12 @@ void UVrmBPFunctionLibrary::VRMChangeMaterialParent(UMaterialInstanceConstant *d
 		return;
 	}
 
-	dst->PreEditChange(NULL);
 	dst->SetParentEditorOnly(NewParent);
+
+	FMaterialUpdateContext UpdateContext(FMaterialUpdateContext::EOptions::Default, GMaxRHIShaderPlatform);
+	UpdateContext.AddMaterialInstance(dst);
+
+	dst->PreEditChange(NULL);
 	dst->PostEditChange();
 
 	// remove dynamic materials
@@ -642,11 +645,6 @@ void UVrmBPFunctionLibrary::VRMChangeMaterialParent(UMaterialInstanceConstant *d
 		if (Itr->Parent == dst) {
 			Itr->ConditionalBeginDestroy();
 		}
-	}
-
-	if (UseSkeletalMesh) {
-		UseSkeletalMesh->PreEditChange(NULL);
-		UseSkeletalMesh->PostEditChange();
 	}
 
 #else

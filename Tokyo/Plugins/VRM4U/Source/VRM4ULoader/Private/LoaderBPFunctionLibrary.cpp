@@ -535,6 +535,7 @@ void ULoaderBPFunctionLibrary::GetVRMMeta(FString filepath, UVrmLicenseObject*& 
 	UE_LOG(LogVRM4ULoader, Log, TEXT("GetVRMMeta:std::stringFileName=%hs"), file.c_str());
 
 	Assimp::Importer mImporter;
+	mImporter.SetPropertyBool(AI_CONFIG_IMPORT_REMOVE_EMPTY_BONES, false);
 	const aiScene *mScenePtr = nullptr; // delete by Assimp::Importer::~Importer
 
 	VRMConverter vc;
@@ -688,6 +689,7 @@ bool ULoaderBPFunctionLibrary::LoadVRMFileFromMemory(const UVrmAssetListObject *
 	}
 
 	Assimp::Importer mImporter;
+	mImporter.SetPropertyBool(AI_CONFIG_IMPORT_REMOVE_EMPTY_BONES, false);
 	const aiScene* mScenePtr = nullptr; // delete by Assimp::Importer::~Importer
 
 	if (filepath.IsEmpty())
@@ -716,7 +718,7 @@ bool ULoaderBPFunctionLibrary::LoadVRMFileFromMemory(const UVrmAssetListObject *
 		e_imp = GetExtAndSetModelTypeLocal(e, pFileDataData, dataSize);
 
 		mScenePtr = mImporter.ReadFileFromMemory(pFileDataData, dataSize,
-			aiProcess_Triangulate | aiProcess_MakeLeftHanded | aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_OptimizeMeshes,
+			aiProcess_Triangulate | aiProcess_MakeLeftHanded | aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_OptimizeMeshes | aiProcess_PopulateArmatureData,
 			e_imp.c_str());
 
 		if (mScenePtr == nullptr) {
@@ -726,7 +728,7 @@ bool ULoaderBPFunctionLibrary::LoadVRMFileFromMemory(const UVrmAssetListObject *
 #else
 			file = TCHAR_TO_UTF8(*filepath);
 #endif
-			mScenePtr = mImporter.ReadFile(file, aiProcess_Triangulate | aiProcess_MakeLeftHanded | aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_OptimizeMeshes);
+			mScenePtr = mImporter.ReadFile(file, aiProcess_Triangulate | aiProcess_MakeLeftHanded | aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_OptimizeMeshes | aiProcess_PopulateArmatureData);
 		}
 
 		UE_LOG(LogVRM4ULoader, Log, TEXT("VRM:(%3.3lf secs) ReadFileFromMemory"), FPlatformTime::Seconds() - StartTime);

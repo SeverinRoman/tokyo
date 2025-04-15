@@ -1,5 +1,7 @@
 #include "ThirdPersonCharacter.h"
 
+#include "InputCatcherComponent.h"
+
 
 AThirdPersonCharacter::AThirdPersonCharacter()
 {
@@ -9,6 +11,7 @@ AThirdPersonCharacter::AThirdPersonCharacter()
 void AThirdPersonCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	Init();
 }
 
 void AThirdPersonCharacter::Tick(float DeltaTime)
@@ -19,5 +22,17 @@ void AThirdPersonCharacter::Tick(float DeltaTime)
 void AThirdPersonCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	InputCatcherComponent = FindComponentByClass<UInputCatcherComponent>();
+
+	if (InputCatcherComponent)
+	{
+		InputCatcherComponent->SetupPlayerInputComponent(PlayerInputComponent);
+	}
+}
+
+void AThirdPersonCharacter::Init()
+{
+	
 }
 

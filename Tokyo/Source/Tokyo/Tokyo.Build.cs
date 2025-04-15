@@ -8,10 +8,24 @@ public class Tokyo : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
+		PublicDependencyModuleNames.AddRange(new string[] { "AnimGraphRuntime", "UMG", "AIModule", "Niagara", "PhysicsCore" });
 
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
-
+		PrivateDependencyModuleNames.AddRange(new string[] { "VRM4U", "TweenMaker" });
+		
+		PublicIncludePaths.AddRange(new string[] {
+			"Tokyo",
+			"Tokyo/Characters",
+			"Tokyo/Components",
+			"Tokyo/Enums",
+			"Tokyo/GameMods",
+			"Tokyo/Interfaces",
+			"Tokyo/Managers",
+			"Tokyo/NPC",
+			"Tokyo/PlayerControllers",
+			"Tokyo/Structs",
+			"Tokyo/UI",
+		});
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 		

@@ -51,6 +51,9 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	ESkinsType Skin = ESkinsType::NONE;
 
+	UPROPERTY(EditDefaultsOnly)
+	FName Tag = "skeleton_mesh";
+
 private:
 	UPROPERTY()
 	AActor* Owner;

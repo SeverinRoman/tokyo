@@ -52,7 +52,7 @@ private:
 	ESkinsType Skin = ESkinsType::NONE;
 
 	UPROPERTY(EditDefaultsOnly)
-	FName Tag = "skeleton_mesh";
+	FName Tag = "skeletal_mesh_component";
 
 private:
 	UPROPERTY()

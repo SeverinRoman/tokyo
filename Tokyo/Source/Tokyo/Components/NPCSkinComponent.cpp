@@ -25,13 +25,6 @@ void UNPCSkinComponent::Init()
 
 	if (Owner)
 	{
-		// Character = Cast<ACharacter>(Owner);
-		//
-		// if (Character)
-		// {
-		// 	SkeletalMeshComponent = Character->GetMesh();
-		// }
-
 		SkeletalMeshComponent = Owner->FindComponentByTag<USkeletalMeshComponent>(Tag);
 	}
 

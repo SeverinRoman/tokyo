@@ -38,17 +38,26 @@ public:
 
 public:
 	UFUNCTION(BlueprintCallable)
+	void MoveToActor(AActor* Actor);
+
+	UFUNCTION(BlueprintCallable)
+	void MoveToLocation(FVector Location);
+	
+	UFUNCTION(BlueprintCallable)
+	void Move(float X, float Y);
+	
+	UFUNCTION(BlueprintCallable)
+	void Run();
+
+	UFUNCTION(BlueprintCallable)
+	void Walk();
+	
+	UFUNCTION(BlueprintCallable)
 	void ToggleMontageRotation(bool bIsEnable);
 	
 	UFUNCTION()
 	void ToggleRotation(bool bIsEnable);
 	
-	UFUNCTION()
-	EMoveType GetMove() { return CurrentMove; };
-	
-	UFUNCTION()
-	void MoveToLocation(FVector Location);
-
 	UFUNCTION()
 	FVector GetVelocity();
 
@@ -57,6 +66,9 @@ public:
 
 	UFUNCTION()
 	float GetRunSpeed() { return RunSpeed; };
+
+	UFUNCTION()
+	EMoveType GetMove() { return CurrentMove; };
 
 public:
 	UPROPERTY(EditDefaultsOnly)
@@ -77,17 +89,7 @@ public:
 	
 	UPROPERTY(BlueprintAssignable)
 	FOnChangeMove OnChangeMove;
-
-public:
-	UFUNCTION(BlueprintCallable)
-	void Move(float X, float Y);
 	
-	UFUNCTION(BlueprintCallable)
-	void Run();
-
-	UFUNCTION(BlueprintCallable)
-	void Walk();
-
 private:
 	UPROPERTY(EditDefaultsOnly)
 	EMoveType StartMove = EMoveType::WALK;
@@ -121,6 +123,9 @@ private:
 	bool IsMoveToLocation = false;
 	
 	UPROPERTY()
+	AActor* MoveActor;
+	
+	UPROPERTY()
 	FRotator SaveRotationRate;
 	
 	UPROPERTY()
@@ -149,8 +154,6 @@ private:
 	UFUNCTION()
 	void SmoothChangeMaxWalkSpeed(float Value);
 
-private:
-	
 	UFUNCTION()
 	void StopAnimation();
 	

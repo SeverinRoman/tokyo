@@ -184,10 +184,27 @@ void UMoveComponent::MoveToLocation(FVector Location)
 	UAIBlueprintHelperLibrary::SimpleMoveToLocation(Controller, Location);
 }
 
+void UMoveComponent::MoveToActor(AActor* Actor)
+{
+	if (IsMoveToLocation) return;
+	if (!Actor) return;
+	MoveActor = Actor;
+
+	IsMoveToLocation = true;
+	
+	LocationToMove = Actor->GetActorLocation();
+	UAIBlueprintHelperLibrary::SimpleMoveToActor(Controller, Actor);
+}
+
 void UMoveComponent::CheckMoveToLocationComplete()
 {
 	if (!IsMoveToLocation) return;
 	if (!Owner) return;
+
+	if (MoveActor)
+	{
+		LocationToMove = MoveActor->GetActorLocation();
+	}
 
 	float Distance = FVector::Distance(Owner->GetActorLocation(), LocationToMove);
 	
@@ -199,6 +216,7 @@ void UMoveComponent::CheckMoveToLocationComplete()
 	if (Distance <= DistanceMoveToLocationComplete)
 	{
 		IsMoveToLocation = false;
+		MoveActor = nullptr;
 		OnMoveToLocationComplete.Broadcast();
 
 		if (IsDebug)

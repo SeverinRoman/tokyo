@@ -64,7 +64,10 @@ private:
 	AActor* Owner;
 	
 	UPROPERTY()
-	ACharacter* Character;
+	APawn* Pawn;
+	
+	UPROPERTY()
+	AController* Controller;
 	
 	UPROPERTY()
 	AAIController* AIController;

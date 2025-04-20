@@ -2,7 +2,7 @@
 
 #include "AIController.h"
 #include "Engine/TargetPoint.h"
-#include "GameFramework/Character.h"
+#include "Blueprint/AIBlueprintHelperLibrary.h"
 
 
 UNPCMoveComponent::UNPCMoveComponent()
@@ -21,11 +21,11 @@ void UNPCMoveComponent::Init()
 	World = GetWorld();
 	Owner = GetOwner();
 
-	Character = Cast<ACharacter>(Owner);
+	Pawn = Cast<APawn>(Owner);
 	
-	if (Character)
+	if (Pawn)
 	{
-		AController* Controller = Character->GetController();
+		Controller = Pawn->GetController();
 
 		if (Controller)
 		{
@@ -58,9 +58,11 @@ void UNPCMoveComponent::MoveLoop()
 	if (!TargetPoints.IsValidIndex(CurrentTargetPoint)) return;
 	if (!TargetPoints[CurrentTargetPoint]) return;
 
-	if (AIController)
+	if (Controller && AIController)
 	{
-		AIController->MoveToLocation(TargetPoints[CurrentTargetPoint]->GetActorLocation());
+		UAIBlueprintHelperLibrary::SimpleMoveToLocation(Controller,TargetPoints[CurrentTargetPoint]->GetActorLocation());
+// 		AIController->MoveToLocation(TargetPoints[CurrentTargetPoint]->GetActorLocation(),-1,true,
+// true, false, true, NULL, true);
 
 		AIController->GetPathFollowingComponent()->OnRequestFinished.RemoveAll(this);
 		AIController->GetPathFollowingComponent()->OnRequestFinished.AddUObject(this, &UNPCMoveComponent::MoveLoopEnd);
@@ -99,9 +101,11 @@ void UNPCMoveComponent::MoveRandom()
 	if (!TargetPoints.IsValidIndex(TargetPointIndex)) return;
 	if (!TargetPoints[TargetPointIndex]) return;
 
-	if (AIController)
+	if (Controller && AIController)
 	{
-		AIController->MoveToLocation(TargetPoints[TargetPointIndex]->GetActorLocation());
+		UAIBlueprintHelperLibrary::SimpleMoveToLocation(AIController,TargetPoints[TargetPointIndex]->GetActorLocation());
+		// AIController->MoveToLocation(TargetPoints[TargetPointIndex]->GetActorLocation(),-1,true,
+		// true, false, true, NULL, true);
 
 		AIController->GetPathFollowingComponent()->OnRequestFinished.RemoveAll(this);
 		AIController->GetPathFollowingComponent()->OnRequestFinished.AddUObject(this, &UNPCMoveComponent::MoveRandomEnd);

@@ -61,8 +61,6 @@ void UNPCMoveComponent::MoveLoop()
 	if (Controller && AIController)
 	{
 		UAIBlueprintHelperLibrary::SimpleMoveToLocation(Controller,TargetPoints[CurrentTargetPoint]->GetActorLocation());
-// 		AIController->MoveToLocation(TargetPoints[CurrentTargetPoint]->GetActorLocation(),-1,true,
-// true, false, true, NULL, true);
 
 		AIController->GetPathFollowingComponent()->OnRequestFinished.RemoveAll(this);
 		AIController->GetPathFollowingComponent()->OnRequestFinished.AddUObject(this, &UNPCMoveComponent::MoveLoopEnd);
@@ -103,9 +101,7 @@ void UNPCMoveComponent::MoveRandom()
 
 	if (Controller && AIController)
 	{
-		UAIBlueprintHelperLibrary::SimpleMoveToLocation(AIController,TargetPoints[TargetPointIndex]->GetActorLocation());
-		// AIController->MoveToLocation(TargetPoints[TargetPointIndex]->GetActorLocation(),-1,true,
-		// true, false, true, NULL, true);
+		UAIBlueprintHelperLibrary::SimpleMoveToLocation(Controller,TargetPoints[TargetPointIndex]->GetActorLocation());
 
 		AIController->GetPathFollowingComponent()->OnRequestFinished.RemoveAll(this);
 		AIController->GetPathFollowingComponent()->OnRequestFinished.AddUObject(this, &UNPCMoveComponent::MoveRandomEnd);

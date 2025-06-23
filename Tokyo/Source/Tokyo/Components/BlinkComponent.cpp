@@ -42,28 +42,36 @@ void UBlinkComponent::Blink()
 	if (!SkeletalMeshComponent) return;
 	
 	UTweenContainer* Container = UTweenManagerComponent::CreateTweenContainerStatic();
-
-	UTweenFloat* TweenStart = Container->AppendTweenCustomFloat(this, 0.f, 1.f, Speed, Easing);
-
-	TweenStart->OnTweenUpdateDelegate.BindLambda([this](UTweenFloat* TweenFloat)
-		{
-			float Value = TweenFloat->GetCurrentValue();
-			SkeletalMeshComponent->SetMorphTarget(Morph, Value);
-		});
-
-	UTweenFloat* TweenEnd = Container->AppendTweenCustomFloat(this, 1.f, 0.f, Speed, Easing);
-
-	TweenEnd->OnTweenUpdateDelegate.BindLambda([this](UTweenFloat* TweenFloat)
-		{
-			float Value = TweenFloat->GetCurrentValue();
-			SkeletalMeshComponent->SetMorphTarget(Morph, Value);
-		});
 	
-	TweenEnd->OnTweenEndDelegate.BindLambda([this](UTweenFloat* TweenFloat)
+	if (Container)
 	{
-		float Value = TweenFloat->GetCurrentValue();
-		ScheduleNextBlink();
-	});
-	
+		UTweenFloat* TweenStart = Container->AppendTweenCustomFloat(this, 0.f, 1.f, Speed, Easing);
+		
+		if (TweenStart)
+		{
+		    	TweenStart->OnTweenUpdateDelegate.BindLambda([this](UTweenFloat* TweenFloat)
+            		{
+            			float Value = TweenFloat->GetCurrentValue();
+            			SkeletalMeshComponent->SetMorphTarget(Morph, Value);
+            		});
+		}
+    
+    	UTweenFloat* TweenEnd = Container->AppendTweenCustomFloat(this, 1.f, 0.f, Speed, Easing);
+    	
+    	if (TweenEnd)
+    	{
+    	    	TweenEnd->OnTweenUpdateDelegate.BindLambda([this](UTweenFloat* TweenFloat)
+            		{
+            			float Value = TweenFloat->GetCurrentValue();
+            			SkeletalMeshComponent->SetMorphTarget(Morph, Value);
+            		});
+            	
+            	TweenEnd->OnTweenEndDelegate.BindLambda([this](UTweenFloat* TweenFloat)
+            	{
+            		float Value = TweenFloat->GetCurrentValue();
+            		ScheduleNextBlink();
+            	});
+    	}
+	}
 }
 
